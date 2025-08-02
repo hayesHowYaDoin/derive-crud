@@ -15,7 +15,7 @@ fn build_create_query(id_ident: &Ident, table: &str, attribute_idents: &[&Ident]
     let insert_placeholders = vec!["?"; attribute_idents.len()];
 
     let mut return_field_names: Vec<_> = vec![id_ident.to_string()];
-    return_field_names.extend(attribute_idents.into_iter().map(|ident| ident.to_string()));
+    return_field_names.extend(attribute_idents.iter().map(|ident| ident.to_string()));
 
     format!(
         "INSERT INTO {} ({}) VALUES ({}) RETURNING {}",
@@ -29,7 +29,7 @@ fn build_create_query(id_ident: &Ident, table: &str, attribute_idents: &[&Ident]
 fn build_update_query(id_ident: &Ident, table: &str, attribute_idents: &[&Ident]) -> String {
     let set_clauses: Vec<_> = attribute_idents
         .iter()
-        .map(|ident| format!("{} = ?", ident))
+        .map(|ident| format!("{ident} = ?"))
         .collect();
 
     format!(
@@ -74,7 +74,7 @@ pub fn create_derive(input: TokenStream) -> TokenStream {
             quote! { #ident: #ty }
         });
 
-    let query = build_create_query(&id_ident, &table_name, &column_idents);
+    let query = build_create_query(id_ident, &table_name, &column_idents);
 
     quote! {
         // Implement the `create` function for the struct.
@@ -174,7 +174,7 @@ pub fn update_derive(input: TokenStream) -> TokenStream {
     let id_ident = parse_id_attribute!(fields);
     let (column_idents, _) = parse_column_fields!(fields);
 
-    let query = build_update_query(&id_ident, &table_name, &column_idents);
+    let query = build_update_query(id_ident, &table_name, &column_idents);
 
     quote! {
         impl #impl_generics #struct_name #ty_generics #where_clause {
