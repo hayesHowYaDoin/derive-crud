@@ -1,0 +1,14 @@
+error: Only one `#[crud_table]` attribute is allowed
+ --> tests/create/attribute_table_multiple/test.rs:5:3
+  |
+5 | #[crud_table("test_table_2")]
+  |   ^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+error[E0599]: no function or associated item named `create` found for struct `Test` in the current scope
+  --> tests/create/attribute_table_multiple/test.rs:14:11
+   |
+6  | struct Test {
+   | ----------- function or associated item `create` not found for this struct
+...
+14 |     Test::create("Debbie".to_string()).await.expect("Failed to create entry");
+   |           ^^^^^^ function or associated item not found in `Test`

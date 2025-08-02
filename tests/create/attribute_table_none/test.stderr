@@ -1,0 +1,18 @@
+error: A struct must be annotated with `#[crud_table("table_name")]` to specify the database table
+ --> tests/create/attribute_table_none/test.rs:4:1
+  |
+4 | / struct Test {
+5 | |     #[crud_id]
+6 | |     id: i64,
+7 | |     name: String,
+8 | | }
+  | |_^
+
+error[E0599]: no function or associated item named `create` found for struct `Test` in the current scope
+  --> tests/create/attribute_table_none/test.rs:12:11
+   |
+4  | struct Test {
+   | ----------- function or associated item `create` not found for this struct
+...
+12 |     Test::create("Debbie".to_string()).await.expect("Failed to create entry");
+   |           ^^^^^^ function or associated item not found in `Test`

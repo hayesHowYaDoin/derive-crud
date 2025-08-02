@@ -1,0 +1,9 @@
+[package]
+name = "crud-test"
+version = "0.1.0"
+edition = "2021"
+
+[dependencies]
+crud-test-core = { workspace = true }
+crud-test-macro = { workspace = true }
+sqlx = { workspace = true }

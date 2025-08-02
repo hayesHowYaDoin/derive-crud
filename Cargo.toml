@@ -1,0 +1,62 @@
+[workspace]
+members = [
+    "lib/crud-core",
+    "lib/crud-macro",
+    "lib/crud-macro-core",
+    "lib/crud-test-core",
+    "lib/crud-test-macro",
+    "lib/crud-test",
+]
+
+[workspace.package]
+version = "0.1.0"
+license = "BSD-3-Clause"
+edition = "2021"
+repository = "https://github.com/hayesHowYaDoin/crud"
+keywords = ["database", "async", "sqlx", "sqlite"]
+categories = ["database", "asynchronous"]
+authors = ["Jordan Hayes <jordanhayes98@gmail.com>"]
+rust-version = "1.88.0"
+
+[package]
+name = "derive-crud"
+readme = "README.md"
+documentation = "https://docs.rs/derive-crud"
+description = "Derive macros to generate compile-time checking CRUD operations with SQLx."
+version.workspace = true
+license.workspace = true
+edition.workspace = true
+repository.workspace = true
+rust-version.workspace = true
+authors.workspace = true
+
+[workspace.dependencies]
+# Core
+crud-core = { path = "lib/crud-core" }
+crud-macro-core = { path = "lib/crud-macro-core" }
+crud-macro = { path = "lib/crud-macro" }
+crud-test-core = { path = "lib/crud-test-core" }
+crud-test-macro = { path = "lib/crud-test-macro" }
+crud-test = { path = "lib/crud-test" }
+# Common
+anyhow = "1.0.98"
+quote = "1.0.40"
+serde = "1.0.219"
+sqlx = { version = "0.8.6", features = ["runtime-tokio", "sqlite"] }
+syn = "2.0.104"
+tokio = { version = "1.45.1", features = ["full"] }
+trybuild = "1.0.106"
+
+[dependencies]
+crud-core = { workspace = true }
+crud-macro-core = { workspace = true }
+crud-macro = { workspace = true }
+sqlx = { workspace = true }
+
+[dev-dependencies]
+crud-test-core = { workspace = true }
+crud-test-macro = { workspace = true }
+crud-test = { workspace = true }
+anyhow = { workspace = true }
+trybuild = { workspace = true }
+tokio = { version = "1.45.1", features = ["full"] }
