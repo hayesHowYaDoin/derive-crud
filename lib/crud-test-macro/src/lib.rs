@@ -10,6 +10,7 @@ pub fn database_test(_attr: TokenStream, item: TokenStream) -> TokenStream {
 
     quote! {
         #[tokio::test]
+        #[serial_test::serial]
         async fn #name() {
             let _db_manager = crud_test_core::TestDatabaseManager::new().await.expect("Failed to initialize test database");
             #block

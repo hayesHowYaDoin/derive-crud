@@ -1,0 +1,23 @@
+error: A struct field must be annotated with `#[crud_id]` to specify the database table
+ --> tests/read/attribute_id_none/test.rs:5:13
+  |
+5 |   struct Test {
+  |  _____________^
+6 | |     id: i64,
+7 | |     name: String,
+8 | | }
+  | |_^
+
+error[E0599]: no function or associated item named `read` found for struct `Test` in the current scope
+  --> tests/read/attribute_id_none/test.rs:12:25
+   |
+5  | struct Test {
+   | ----------- function or associated item `read` not found for this struct
+...
+12 |     let _result = Test::read(1).await.unwrap(); // Test should fail before unwrap
+   |                         ^^^^ function or associated item not found in `Test`
+   |
+   = help: items from traits can only be used if the trait is implemented and in scope
+   = note: the following traits define an item `read`, perhaps you need to implement one of them:
+           candidate #1: `AsyncReadExt`
+           candidate #2: `std::io::Read`

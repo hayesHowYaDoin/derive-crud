@@ -1,0 +1,12 @@
+{
+    "recommendations": [
+        "mkhl.direnv",
+        "bbenoist.nix",
+        "jnoortheen.nix-ide",
+        "rust-lang.rust-analyzer",
+        "tamasfe.even-better-toml",
+        "swellaby.vscode-rust-test-adapter",
+        "alexcvzz.vscode-sqlite",
+        "vadimcn.vscode-lldb",
+    ]
+}

@@ -1,0 +1,20 @@
+error: Only one field can be annotated with `#[crud_id]`
+ --> tests/read/attribute_id_multiple/test.rs:8:5
+  |
+8 | /     #[crud_id]
+9 | |     name: String,
+  | |________________^
+
+error[E0599]: no function or associated item named `read` found for struct `Test` in the current scope
+  --> tests/read/attribute_id_multiple/test.rs:14:25
+   |
+5  | struct Test {
+   | ----------- function or associated item `read` not found for this struct
+...
+14 |     let _result = Test::read(1).await.unwrap(); // Test should fail before unwrap
+   |                         ^^^^ function or associated item not found in `Test`
+   |
+   = help: items from traits can only be used if the trait is implemented and in scope
+   = note: the following traits define an item `read`, perhaps you need to implement one of them:
+           candidate #1: `AsyncReadExt`
+           candidate #2: `std::io::Read`

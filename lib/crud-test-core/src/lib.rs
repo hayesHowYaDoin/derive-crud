@@ -19,10 +19,12 @@ impl TestDatabaseManager {
         let pool = sqlx::sqlite::SqlitePool::connect(&database_url)
             .await
             .expect("Failed to connect to the database");
-        sqlx::query("CREATE TABLE test_table (id INTEGER PRIMARY KEY, name TEXT NOT NULL)")
-            .execute(&pool)
-            .await
-            .expect("Failed to create test_table");
+        sqlx::query(
+            "CREATE TABLE IF NOT EXISTS test_table (id INTEGER PRIMARY KEY, name TEXT NOT NULL)",
+        )
+        .execute(&pool)
+        .await
+        .expect("Failed to create test_table");
 
         Ok(TestDatabaseManager {
             database_path: database_path.to_string(),

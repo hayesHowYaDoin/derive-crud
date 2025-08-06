@@ -45,16 +45,40 @@ fn build_update_query(id_ident: &Ident, table: &str, attribute_idents: &[&Ident]
 ///
 /// # Attributes
 ///
-/// - `#[crud_id]`: This attribute must be placed on exactly one field within the struct.
-///   This field will be automatically initialized by the `create` function.
+/// - `#[crud_id]`: Primary key for the database table. This attribute must be
+/// placed on a single named field within the struct.
+/// - `#[crud_table("table_name")]`: Name of the database table that the struct
+/// is meant to represent. This attribute must be placed on the struct itself.
 ///
 /// # Panics (Compile-time Errors)
 ///
 /// This macro will cause a compile-time error if:
 /// - It is applied to an enum or union (only structs are supported).
 /// - The struct is not annotated with `#[crud_table("table_name")]`.
-/// - No field is annotated with `#[crud_id]`.
-/// - More than one field is annotated with `#[crud_id]`.
+/// - A single field is not annotated with `#[crud_id]`.
+/// - The struct does not accurately match the database schema for the table.
+///
+/// # Example
+///
+/// ```rust
+/// use anyhow::Result;
+/// use derive_crud::Create;
+///
+/// #[derive(Create)]
+/// #[crud_table("users")]
+/// struct User {
+///    #[crud_id]
+///   id: i64,
+///   name: String,
+///   email: String,
+///   age: i32,
+/// }
+///
+/// #[tokio::main]
+/// async fn main() -> Result<()> {
+///    Test::create("Debbie".to_string(), "debbie@hotmail.com", 47).await?;
+/// }
+/// ```
 #[proc_macro_derive(Create, attributes(crud_id, crud_table))]
 pub fn create_derive(input: TokenStream) -> TokenStream {
     let input = parse_macro_input!(input as syn::DeriveInput);
@@ -77,7 +101,6 @@ pub fn create_derive(input: TokenStream) -> TokenStream {
     let query = build_create_query(id_ident, &table_name, &column_idents);
 
     quote! {
-        // Implement the `create` function for the struct.
         impl #impl_generics #struct_name #ty_generics #where_clause {
             /// Creates a new entry in the database.
             ///
@@ -98,7 +121,7 @@ pub fn create_derive(input: TokenStream) -> TokenStream {
     .into()
 }
 
-#[proc_macro_derive(Read, attributes(crud_id))]
+#[proc_macro_derive(Read, attributes(crud_id, crud_table))]
 pub fn read_derive(input: TokenStream) -> TokenStream {
     let input = parse_macro_input!(input as syn::DeriveInput);
 
@@ -133,7 +156,7 @@ pub fn read_derive(input: TokenStream) -> TokenStream {
     .into()
 }
 
-#[proc_macro_derive(ReadAll, attributes(crud_id))]
+#[proc_macro_derive(ReadAll, attributes(crud_id, crud_table))]
 pub fn read_all_derive(input: TokenStream) -> TokenStream {
     let input = parse_macro_input!(input as syn::DeriveInput);
 
@@ -162,7 +185,7 @@ pub fn read_all_derive(input: TokenStream) -> TokenStream {
     .into()
 }
 
-#[proc_macro_derive(Update, attributes(crud_id))]
+#[proc_macro_derive(Update, attributes(crud_id, crud_table))]
 pub fn update_derive(input: TokenStream) -> TokenStream {
     let input = parse_macro_input!(input as syn::DeriveInput);
 
@@ -197,7 +220,7 @@ pub fn update_derive(input: TokenStream) -> TokenStream {
     .into()
 }
 
-#[proc_macro_derive(Delete, attributes(crud_id))]
+#[proc_macro_derive(Delete, attributes(crud_id, crud_table))]
 pub fn delete_derive(input: TokenStream) -> TokenStream {
     let input = parse_macro_input!(input as syn::DeriveInput);
     let struct_name = &input.ident;

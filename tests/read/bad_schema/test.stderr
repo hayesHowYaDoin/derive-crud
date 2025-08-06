@@ -1,0 +1,5 @@
+error[E0063]: missing field `location` in initializer of `Test`
+ --> tests/read/bad_schema/test.rs:5:8
+  |
+5 | struct Test {
+  |        ^^^^ missing `location`

@@ -42,6 +42,7 @@ crud-test = { path = "lib/crud-test" }
 anyhow = "1.0.98"
 quote = "1.0.40"
 serde = "1.0.219"
+serial_test = "3.2.0"
 sqlx = { version = "0.8.6", features = ["runtime-tokio", "sqlite"] }
 syn = "2.0.104"
 tokio = { version = "1.45.1", features = ["full"] }
@@ -58,5 +59,6 @@ crud-test-core = { workspace = true }
 crud-test-macro = { workspace = true }
 crud-test = { workspace = true }
 anyhow = { workspace = true }
+serial_test = { workspace = true }
 trybuild = { workspace = true }
 tokio = { version = "1.45.1", features = ["full"] }

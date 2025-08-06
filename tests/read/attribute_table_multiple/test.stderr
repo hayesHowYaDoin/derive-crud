@@ -1,0 +1,19 @@
+error: Only one `#[crud_table]` attribute is allowed
+ --> tests/read/attribute_table_multiple/test.rs:5:3
+  |
+5 | #[crud_table("test_table_2")]
+  |   ^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+error[E0599]: no function or associated item named `read` found for struct `Test` in the current scope
+  --> tests/read/attribute_table_multiple/test.rs:14:25
+   |
+6  | struct Test {
+   | ----------- function or associated item `read` not found for this struct
+...
+14 |     let _result = Test::read(1).await.unwrap(); // Test should fail before unwrap
+   |                         ^^^^ function or associated item not found in `Test`
+   |
+   = help: items from traits can only be used if the trait is implemented and in scope
+   = note: the following traits define an item `read`, perhaps you need to implement one of them:
+           candidate #1: `AsyncReadExt`
+           candidate #2: `std::io::Read`

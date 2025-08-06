@@ -1,0 +1,7 @@
+error: error returned from database: (code: 1) table test_table has no column named location
+ --> tests/create/bad_schema/test.rs:3:10
+  |
+3 | #[derive(Create)]
+  |          ^^^^^^
+  |
+  = note: this error originates in the macro `$crate::sqlx_macros::expand_query` which comes from the expansion of the derive macro `Create` (in Nightly builds, run with -Z macro-backtrace for more info)

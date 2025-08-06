@@ -52,6 +52,37 @@ macro_rules! parse_table_attribute {
     }};
 }
 
+/// A macro to parse the `#[crud_id]` attribute from the fields of a struct.
+///
+/// This macro iterates over the fields of a struct and checks for the presence
+/// of the `#[crud_id]` attribute. The attribute is used to identify the field
+/// that serves as the unique identifier for the database table.
+///
+/// # Rules:
+/// - All fields in the struct must have names. If a field is unnamed, an error
+///   will be returned.
+/// - Only one field in the struct can be annotated with `#[crud_id]`. If more
+///   than one field is annotated, an error will be returned.
+/// - If no field is annotated with `#[crud_id]`, an error will be returned.
+///
+/// # Returns:
+/// - If successful, the macro returns the identifier of the field annotated
+///   with `#[crud_id]`.
+/// - If any of the rules are violated, a `syn::Error` is returned as a
+///   compile-time error.
+///
+/// # Example:
+/// ```rust
+/// #[derive(SomeMacro)]
+/// struct MyStruct {
+///     #[crud_id]
+///     id: i32,
+///     name: String,
+/// }
+/// ```
+///
+/// In the example above, the `id` field is annotated with `#[crud_id]`, making
+/// it the unique identifier for the database table.
 #[macro_export]
 macro_rules! parse_id_attribute {
     ($fields:expr) => {{
