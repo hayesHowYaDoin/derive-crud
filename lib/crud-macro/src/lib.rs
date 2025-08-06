@@ -46,9 +46,9 @@ fn build_update_query(id_ident: &Ident, table: &str, attribute_idents: &[&Ident]
 /// # Attributes
 ///
 /// - `#[crud_id]`: Primary key for the database table. This attribute must be
-/// placed on a single named field within the struct.
+///   placed on a single named field within the struct.
 /// - `#[crud_table("table_name")]`: Name of the database table that the struct
-/// is meant to represent. This attribute must be placed on the struct itself.
+///   is meant to represent. This attribute must be placed on the struct itself.
 ///
 /// # Panics (Compile-time Errors)
 ///
