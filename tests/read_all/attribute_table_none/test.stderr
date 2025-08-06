@@ -1,0 +1,19 @@
+error: A struct must be annotated with `#[crud_table("table_name")]` to specify the database table
+ --> tests/read_all/attribute_table_none/test.rs:4:1
+  |
+4 | / struct Test {
+5 | |     #[crud_id]
+6 | |     id: i64,
+7 | |     name: String,
+8 | |     location: String,
+9 | | }
+  | |_^
+
+error[E0599]: no function or associated item named `read_all` found for struct `Test` in the current scope
+  --> tests/read_all/attribute_table_none/test.rs:13:26
+   |
+4  | struct Test {
+   | ----------- function or associated item `read_all` not found for this struct
+...
+13 |     let _results = Test::read_all().await.unwrap(); // Test should fail before unwrap
+   |                          ^^^^^^^^ function or associated item not found in `Test`

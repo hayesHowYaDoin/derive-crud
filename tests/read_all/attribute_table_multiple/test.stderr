@@ -1,0 +1,14 @@
+error: Only one `#[crud_table]` attribute is allowed
+ --> tests/read_all/attribute_table_multiple/test.rs:5:3
+  |
+5 | #[crud_table("test_table_2")]
+  |   ^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+error[E0599]: no function or associated item named `read_all` found for struct `Test` in the current scope
+  --> tests/read_all/attribute_table_multiple/test.rs:14:26
+   |
+6  | struct Test {
+   | ----------- function or associated item `read_all` not found for this struct
+...
+14 |     let _results = Test::read_all().await.unwrap(); // Test should fail before unwrap
+   |                          ^^^^^^^^ function or associated item not found in `Test`
