@@ -14,5 +14,5 @@ error[E0599]: no function or associated item named `create` found for struct `Te
 4  | struct Test {
    | ----------- function or associated item `create` not found for this struct
 ...
-12 |     Test::create("Debbie".to_string()).await.expect("Failed to create entry");
+12 |     Test::create("Debbie".to_string()).await;
    |           ^^^^^^ function or associated item not found in `Test`

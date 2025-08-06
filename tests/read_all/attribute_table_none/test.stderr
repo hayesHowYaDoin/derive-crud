@@ -15,5 +15,5 @@ error[E0599]: no function or associated item named `read_all` found for struct `
 4  | struct Test {
    | ----------- function or associated item `read_all` not found for this struct
 ...
-13 |     let _results = Test::read_all().await.unwrap(); // Test should fail before unwrap
+13 |     let _results = Test::read_all().await;
    |                          ^^^^^^^^ function or associated item not found in `Test`

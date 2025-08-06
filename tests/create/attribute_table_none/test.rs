@@ -1,4 +1,4 @@
-use derive_crud::{Create};
+use derive_crud::Create;
 
 #[derive(Create)]
 struct Test {
@@ -9,5 +9,5 @@ struct Test {
 
 #[tokio::main]
 async fn main() {
-    Test::create("Debbie".to_string()).await.expect("Failed to create entry");
+    Test::create("Debbie".to_string()).await;
 }

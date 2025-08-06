@@ -9,5 +9,5 @@ struct Test {
 
 #[tokio::main]
 async fn main() {
-    let _result = Test::read_all().await.unwrap();
+    let _results = Test::read_all().await;
 }

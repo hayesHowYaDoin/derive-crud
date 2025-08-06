@@ -11,7 +11,7 @@ error[E0599]: no function or associated item named `read` found for struct `Test
 5  | struct Test {
    | ----------- function or associated item `read` not found for this struct
 ...
-14 |     let _result = Test::read(1).await.unwrap(); // Test should fail before unwrap
+14 |     let _result = Test::read(1).await;
    |                         ^^^^ function or associated item not found in `Test`
    |
    = help: items from traits can only be used if the trait is implemented and in scope

@@ -16,6 +16,5 @@ async fn main() {
         name: "Debbie".to_string(),
     }
     .update()
-    .await
-    .unwrap();
+    .await;
 }

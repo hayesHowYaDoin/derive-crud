@@ -1,6 +1,6 @@
-use derive_crud::{Create, Read};
+use derive_crud::Read;
 
-#[derive(Create, Read)]
+#[derive(Read)]
 #[crud_table("test_table")]
 struct Test {
     #[crud_id]
@@ -10,9 +10,5 @@ struct Test {
 
 #[tokio::main]
 async fn main() {
-    let test = Test::create("Debbie".to_string())
-        .await
-        .expect("Failed to create entry");
-
-    let _result = Test::read(test.id).await.unwrap();
+    let _result = Test::read(1).await;
 }

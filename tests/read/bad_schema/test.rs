@@ -11,5 +11,5 @@ struct Test {
 
 #[tokio::main]
 async fn main() {
-    let _result = Test::read(1).await.unwrap(); // Test should fail before unwrap
+    let _result = Test::read(1).await;
 }

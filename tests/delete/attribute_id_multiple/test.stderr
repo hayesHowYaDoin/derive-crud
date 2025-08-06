@@ -1,0 +1,15 @@
+error: Only one field can be annotated with `#[crud_id]`
+ --> tests/delete/attribute_id_multiple/test.rs:8:5
+  |
+8 | /     #[crud_id]
+9 | |     name: String,
+  | |________________^
+
+error[E0599]: no function or associated item named `delete` found for struct `Test` in the current scope
+  --> tests/delete/attribute_id_multiple/test.rs:14:25
+   |
+5  | struct Test {
+   | ----------- function or associated item `delete` not found for this struct
+...
+14 |     let _result = Test::delete(1).await;
+   |                         ^^^^^^ function or associated item not found in `Test`
