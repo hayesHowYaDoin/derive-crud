@@ -1,0 +1,13 @@
+error: error returned from database: (code: 1) no such column: location
+ --> tests/update/bad_schema/test.rs:3:10
+  |
+3 | #[derive(Update)]
+  |          ^^^^^^
+  |
+  = note: this error originates in the macro `$crate::sqlx_macros::expand_query` which comes from the expansion of the derive macro `Update` (in Nightly builds, run with -Z macro-backtrace for more info)
+
+error[E0063]: missing field `location` in initializer of `Test`
+  --> tests/update/bad_schema/test.rs:14:19
+   |
+14 |     let _result = Test {
+   |                   ^^^^ missing `location`

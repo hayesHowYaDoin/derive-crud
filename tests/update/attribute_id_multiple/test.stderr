@@ -1,0 +1,22 @@
+error: Only one field can be annotated with `#[crud_id]`
+ --> tests/update/attribute_id_multiple/test.rs:8:5
+  |
+8 | /     #[crud_id]
+9 | |     name: String,
+  | |________________^
+
+error[E0599]: no method named `update` found for struct `Test` in the current scope
+  --> tests/update/attribute_id_multiple/test.rs:18:6
+   |
+5  |   struct Test {
+   |   ----------- method `update` not found for this struct
+...
+14 |       let _result = Test {
+   |  ___________________-
+15 | |         id: 1,
+16 | |         name: "Debbie".to_string(),
+17 | |     }
+18 | |     .update()
+   | |     -^^^^^^ method not found in `Test`
+   | |_____|
+   |

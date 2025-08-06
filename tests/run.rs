@@ -38,3 +38,16 @@ fn read_all() {
     t.compile_fail("tests/read_all/attribute_table_nonexistant/test.rs");
     t.compile_fail("tests/read_all/bad_schema/test.rs");
 }
+
+#[database_test]
+fn update() {
+    let t = trybuild::TestCases::new();
+    t.pass("tests/update/expected/test.rs");
+    t.compile_fail("tests/update/attribute_id_multiple/test.rs");
+    t.compile_fail("tests/update/attribute_id_none/test.rs");
+    t.compile_fail("tests/update/attribute_table_multiple/test.rs");
+    t.compile_fail("tests/update/attribute_table_no_name/test.rs");
+    t.compile_fail("tests/update/attribute_table_none/test.rs");
+    t.compile_fail("tests/update/attribute_table_nonexistant/test.rs");
+    t.compile_fail("tests/update/bad_schema/test.rs");
+}

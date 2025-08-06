@@ -1,0 +1,25 @@
+error: A struct must be annotated with `#[crud_table("table_name")]` to specify the database table
+ --> tests/update/attribute_table_none/test.rs:4:1
+  |
+4 | / struct Test {
+5 | |     #[crud_id]
+6 | |     id: i64,
+7 | |     name: String,
+8 | | }
+  | |_^
+
+error[E0599]: no method named `update` found for struct `Test` in the current scope
+  --> tests/update/attribute_table_none/test.rs:16:6
+   |
+4  |   struct Test {
+   |   ----------- method `update` not found for this struct
+...
+12 |       let _result = Test {
+   |  ___________________-
+13 | |         id: 1,
+14 | |         name: "Debbie".to_string(),
+15 | |     }
+16 | |     .update()
+   | |     -^^^^^^ method not found in `Test`
+   | |_____|
+   |
