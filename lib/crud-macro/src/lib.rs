@@ -109,10 +109,11 @@ pub fn create_derive(input: TokenStream) -> TokenStream {
             ///
             /// The `#[crud_table("table_name")]` attribute specifies the database table to insert into.
             /// The field annotated with `#[crud_id]` is used as the identifier for the table.
-            pub async fn create(pool: &sqlx::Pool<sqlx::Sqlite>, #(#fn_params),*) -> Result<Self, derive_crud::CRUDError> {
+            pub async fn create(pool: &::sqlx::Pool<::sqlx::Sqlite>, #(#fn_params),*) -> Result<Self, ::derive_crud::CRUDError> {
                 let item = sqlx::query_as!(#struct_name, #query, #(#column_idents),*,)
                     .fetch_one(pool)
-                    .await.map_err(|e| derive_crud::CRUDError(e.to_string()))?;
+                    .await
+                    .map_err(|e| ::derive_crud::CRUDError(e.to_string()))?;
 
                 Ok(item)
             }
@@ -189,17 +190,17 @@ pub fn read_derive(input: TokenStream) -> TokenStream {
             /// The `#[crud_table("table_name")]` attribute specifies the database table to read from.
             /// The field annotated with `#[crud_id]` is used as the identifier for the table.
             pub fn read<'a>(
-                pool: &'a sqlx::Pool<sqlx::Sqlite>,
+                pool: &'a ::sqlx::Pool<::sqlx::Sqlite>,
                 id: i64
-            ) -> std::pin::Pin<Box<impl futures_core::stream::Stream<Item = Result<#struct_name, derive_crud::CRUDError>> + 'a>> {
-                use futures_util::StreamExt;
+            ) -> ::std::pin::Pin<Box<impl ::futures_core::stream::Stream<Item = Result<#struct_name, ::derive_crud::CRUDError>> + 'a>> {
+                use ::futures_util::StreamExt;
 
                 Box::pin(async_stream::stream! {
-                    let mut stream = sqlx::query_as!(#struct_name, #read_query, id).fetch(pool);
+                    let mut stream = ::sqlx::query_as!(#struct_name, #read_query, id).fetch(pool);
                     while let Some(item) = stream.next().await {
                         match item {
                             Ok(record) => yield Ok(record),
-                            Err(e) => yield Err(derive_crud::CRUDError(e.to_string())),
+                            Err(e) => yield Err(::derive_crud::CRUDError(e.to_string())),
                         }
                     }
                 })
@@ -209,10 +210,11 @@ pub fn read_derive(input: TokenStream) -> TokenStream {
             ///
             /// The `#[crud_table("table_name")]` attribute specifies the database table to read from.
             /// The field annotated with `#[crud_id]` is used as the identifier for the table.
-            pub async fn read_one(pool: &sqlx::Pool<sqlx::Sqlite>, id: i64) -> Result<Self, derive_crud::CRUDError> {
+            pub async fn read_one(pool: &::sqlx::Pool<::sqlx::Sqlite>, id: i64) -> Result<Self, ::derive_crud::CRUDError> {
                 let item = sqlx::query_as!(#struct_name, #read_one_query, id)
                     .fetch_one(pool)
-                    .await.map_err(|e| derive_crud::CRUDError(e.to_string()))?;
+                    .await
+                    .map_err(|e| ::derive_crud::CRUDError(e.to_string()))?;
 
                 Ok(item)
             }
@@ -220,10 +222,11 @@ pub fn read_derive(input: TokenStream) -> TokenStream {
             /// Reads all entries from the database.
             ///
             /// The `#[crud_table("table_name")]` attribute specifies the database table to read from.
-            pub async fn read_all(pool: &sqlx::Pool<sqlx::Sqlite>) -> Result<Vec<Self>, derive_crud::CRUDError> {
-                let items: Vec<#struct_name> = sqlx::query_as!(#struct_name, #read_all_query)
+            pub async fn read_all(pool: &::sqlx::Pool<::sqlx::Sqlite>) -> Result<::std::vec::Vec<Self>, ::derive_crud::CRUDError> {
+                let items: Vec<#struct_name> = ::sqlx::query_as!(#struct_name, #read_all_query)
                     .fetch_all(pool)
-                    .await.map_err(|e| derive_crud::CRUDError(e.to_string()))?;
+                    .await
+                    .map_err(|e| ::derive_crud::CRUDError(e.to_string()))?;
 
                 Ok(items)
             }
@@ -294,10 +297,11 @@ pub fn read_one_derive(input: TokenStream) -> TokenStream {
             ///
             /// The `#[crud_table("table_name")]` attribute specifies the database table to read from.
             /// The field annotated with `#[crud_id]` is used as the identifier for the table.
-            pub async fn read_one(pool: &sqlx::Pool<sqlx::Sqlite>, id: i64) -> Result<Self, derive_crud::CRUDError> {
-                let item = sqlx::query_as!(#struct_name, #query, id)
+            pub async fn read_one(pool: &::sqlx::Pool<::sqlx::Sqlite>, id: i64) -> Result<Self, ::derive_crud::CRUDError> {
+                let item = ::sqlx::query_as!(#struct_name, #query, id)
                     .fetch_one(pool)
-                    .await.map_err(|e| derive_crud::CRUDError(e.to_string()))?;
+                    .await
+                    .map_err(|e| ::derive_crud::CRUDError(e.to_string()))?;
 
                 Ok(item)
             }
@@ -360,10 +364,11 @@ pub fn read_all_derive(input: TokenStream) -> TokenStream {
             /// Reads all entries from the database.
             ///
             /// The `#[crud_table("table_name")]` attribute specifies the database table to read from.
-            pub async fn read_all(pool: &sqlx::Pool<sqlx::Sqlite>) -> Result<Vec<Self>, derive_crud::CRUDError> {
-                let items: Vec<#struct_name> = sqlx::query_as!(#struct_name, #query)
+            pub async fn read_all(pool: &::sqlx::Pool<sqlx::Sqlite>) -> Result<::std::vec::Vec<Self>, ::derive_crud::CRUDError> {
+                let items: ::std::vec::Vec<#struct_name> = ::sqlx::query_as!(#struct_name, #query)
                     .fetch_all(pool)
-                    .await.map_err(|e| derive_crud::CRUDError(e.to_string()))?;
+                    .await
+                    .map_err(|e| ::derive_crud::CRUDError(e.to_string()))?;
 
                 Ok(items)
             }
@@ -440,10 +445,11 @@ pub fn update_derive(input: TokenStream) -> TokenStream {
             ///
             /// The `#[crud_table("table_name")]` attribute specifies the database table to update.
             /// The field annotated with `#[crud_id]` is used as the identifier for the table.
-            pub async fn update(&self, pool: &sqlx::Pool<sqlx::Sqlite>) -> Result<(), derive_crud::CRUDError> {
+            pub async fn update(&self, pool: &::sqlx::Pool<::sqlx::Sqlite>) -> Result<(), ::derive_crud::CRUDError> {
                 sqlx::query!(#query, self.#id_ident, #(self.#column_idents),*)
                     .fetch_all(pool)
-                    .await.map_err(|e| derive_crud::CRUDError(e.to_string()))?;
+                    .await
+                    .map_err(|e| ::derive_crud::CRUDError(e.to_string()))?;
 
                 Ok(())
             }
@@ -512,10 +518,11 @@ pub fn delete_derive(input: TokenStream) -> TokenStream {
             ///
             /// The `#[crud_table("table_name")]` attribute specifies the database table to delete from.
             /// The field annotated with `#[crud_id]` is used as the identifier for the table.
-            pub async fn delete(pool: &sqlx::Pool<sqlx::Sqlite>, id: i64) -> Result<(), derive_crud::CRUDError> {
+            pub async fn delete(pool: &::sqlx::Pool<::sqlx::Sqlite>, id: i64) -> Result<(), ::derive_crud::CRUDError> {
                 sqlx::query!(#query, id)
                     .execute(pool)
-                    .await.map_err(|e| derive_crud::CRUDError(e.to_string()))?;
+                    .await
+                    .map_err(|e| ::derive_crud::CRUDError(e.to_string()))?;
 
                 Ok(())
             }
