@@ -8,8 +8,6 @@
       openssl
     ];
 
-    dotenv.enable = true;
-
     languages.rust = {
       enable = true;
       components = [ "rustc" "cargo" "clippy" "rustfmt" "rust-analyzer" ];
@@ -21,5 +19,11 @@
       clippy.enable = true;
       rustfmt.enable = true;
     };
+
+    cachix.enable = false;
+
+    enterShell = ''
+      export DATABASE_URL="sqlite://$DEVENV_ROOT/tests/sqlite.db"
+    '';
   };
 }
