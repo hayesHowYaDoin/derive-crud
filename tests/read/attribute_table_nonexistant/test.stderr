@@ -13,11 +13,3 @@ error: error returned from database: (code: 1) no such table: nonexistant_table
   |          ^^^^
   |
   = note: this error originates in the macro `$crate::sqlx_macros::expand_query` which comes from the expansion of the derive macro `Read` (in Nightly builds, run with -Z macro-backtrace for more info)
-
-error: error returned from database: (code: 1) no such table: nonexistant_table
- --> tests/read/attribute_table_nonexistant/test.rs:3:10
-  |
-3 | #[derive(Read)]
-  |          ^^^^
-  |
-  = note: this error originates in the macro `$crate::sqlx_macros::expand_query` which comes from the expansion of the derive macro `Read` (in Nightly builds, run with -Z macro-backtrace for more info)

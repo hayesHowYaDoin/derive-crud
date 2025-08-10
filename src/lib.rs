@@ -6,3 +6,7 @@
 
 pub use crud_core::error::CRUDError;
 pub use crud_macro::{Create, Delete, Read, Update};
+
+// Re-export to ensure crate dependencies are available at compilation.
+pub use futures_util;
+pub use sqlx;
