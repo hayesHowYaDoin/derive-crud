@@ -40,12 +40,12 @@ crud-test-macro = { path = "lib/crud-test-macro" }
 crud-test = { path = "lib/crud-test" }
 # Common
 async-stream = "0.3.6"
-anyhow = "1.0.98"
 futures-core = "0.3.31"
 futures-util = "0.3.31"
 serial_test = "3.2.0"
 sqlx = { version = "0.8.6", features = ["runtime-tokio", "sqlite"] }
 syn = "2.0.104"
+tokio = { version = "1.45.1", features = ["full"] }
 trybuild = "1.0.106"
 quote = "1.0.40"
 
@@ -62,7 +62,6 @@ sqlx = { workspace = true }
 crud-test-core = { workspace = true }
 crud-test-macro = { workspace = true }
 crud-test = { workspace = true }
-anyhow = { workspace = true }
 serial_test = { workspace = true }
 trybuild = { workspace = true }
-tokio = { version = "1.45.1", features = ["full"] }
+tokio = { workspace = true }
