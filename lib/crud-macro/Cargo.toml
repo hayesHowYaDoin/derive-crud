@@ -9,7 +9,6 @@ proc-macro = true
 [dependencies]
 crud-core = { workspace = true }
 crud-macro-core = { workspace = true }
-anyhow = { workspace = true }
 async-stream = { workspace = true }
 futures-core = { workspace = true }
 futures-util = { workspace = true }

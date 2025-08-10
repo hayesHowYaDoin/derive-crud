@@ -200,7 +200,6 @@ version = "0.1.0"
 name = "crud-macro"
 version = "0.1.0"
 dependencies = [
- "anyhow",
  "async-stream",
  "crud-core",
  "crud-macro-core",
