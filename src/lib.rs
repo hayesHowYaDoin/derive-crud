@@ -5,4 +5,4 @@
 //! to generate SQL queries at compile time, ensuring type safety and performance.
 
 pub use crud_core::error::CRUDError;
-pub use crud_macro::{Create, Delete, Read, ReadAll, Update};
+pub use crud_macro::{Create, Delete, Read, ReadAll, ReadOne, Update};

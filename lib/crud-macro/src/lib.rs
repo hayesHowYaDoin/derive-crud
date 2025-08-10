@@ -40,11 +40,11 @@ fn build_update_query(id_ident: &Ident, table: &str, attribute_idents: &[&Ident]
     )
 }
 
-/// A derive macro that implements the CRUD `create` function for a struct.
+/// Implements a CRUD function to create items in the database.
 ///
-/// Generates a function that inserts a new entry into the database. The new
-/// function will have the name `create`, and will take the non-ID fields of
-/// the struct as parameters.
+/// Generates a function that inserts a new entry into the database table. The
+/// new function will have the name `create`, and will take the non-ID fields
+/// of the struct as parameters.
 ///
 ///
 /// # Attributes
@@ -124,8 +124,11 @@ pub fn create_derive(input: TokenStream) -> TokenStream {
     .into()
 }
 
-/// A derive macro that implements a CRUD function to read all items from
-/// the database which have the provided ID.
+/// Implements a CRUD function to read items from the database.
+///
+/// Generates a function that reads all entries in the database table with a
+/// given ID. The new function will have the name `read`, and will take the ID
+/// field as a parameter.
 ///
 ///
 /// # Attributes
@@ -198,10 +201,12 @@ pub fn read_derive(input: TokenStream) -> TokenStream {
     .into()
 }
 
-/// A derive macro that implements a CRUD function to read a single item from
-/// the database. If a query returns multiple items, only the first one is
-/// returned.
+/// Implements a CRUD function to read a single item from the database.
 ///
+/// Generates a function that reads a single entry in the database table with a
+/// given ID. If multiple rows exist in the table with the same ID, only one is
+/// returned.The new function will have the name `read_one`, and will take the
+/// ID field as a parameter.
 ///
 /// # Attributes
 ///
@@ -273,9 +278,10 @@ pub fn read_one_derive(input: TokenStream) -> TokenStream {
     .into()
 }
 
-/// A derive macro that implements a CRUD function to read a all items from
-/// the database.
+/// Implements a CRUD function to read all items from the database.
 ///
+/// Generates a function that reads all entries in the database table. The new
+/// function will have the name `read_all`, and will take no parameters.
 ///
 /// # Attributes
 ///
@@ -341,9 +347,11 @@ pub fn read_all_derive(input: TokenStream) -> TokenStream {
     .into()
 }
 
-/// A derive macro that implements a CRUD function to update an item in the
-/// database table with the current contents of the struct.
+/// Implements a CRUD function to update an item in the database table..
 ///
+/// Generates a function that updates an entry in the database table with the
+/// current contents of the object. The new function will have the name
+/// `update`, and will take no parameters.
 ///
 /// # Attributes
 ///
@@ -363,9 +371,9 @@ pub fn read_all_derive(input: TokenStream) -> TokenStream {
 /// # Example
 ///
 /// ```rust
-/// use derive_crud::Create;
+/// use derive_crud::Update;
 ///
-/// #[derive(Create)]
+/// #[derive(Update)]
 /// #[crud_table("users")]
 /// struct User {
 ///    #[crud_id]
@@ -422,8 +430,11 @@ pub fn update_derive(input: TokenStream) -> TokenStream {
     .into()
 }
 
-/// A derive macro that implements a CRUD function to delete an item from the
-/// database table.
+/// Implements a CRUD function to delete an item from the database table.
+///
+/// Generates a function that deletes an entry in the database table with a
+/// provided ID. The new function will have the name `delete`, and will take
+/// the struct's ID field as a parameter.
 ///
 ///
 /// # Attributes
