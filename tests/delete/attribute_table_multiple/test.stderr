@@ -5,10 +5,10 @@ error: Only one `#[crud_table]` attribute is allowed
   |   ^^^^^^^^^^^^^^^^^^^^^^^^^
 
 error[E0599]: no function or associated item named `delete` found for struct `Test` in the current scope
-  --> tests/delete/attribute_table_multiple/test.rs:14:25
+  --> tests/delete/attribute_table_multiple/test.rs:17:25
    |
 6  | struct Test {
    | ----------- function or associated item `delete` not found for this struct
 ...
-14 |     let _result = Test::delete(1).await;
+17 |     let _result = Test::delete(&pool, 1).await;
    |                         ^^^^^^ function or associated item not found in `Test`

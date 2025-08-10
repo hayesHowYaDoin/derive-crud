@@ -5,10 +5,10 @@ error: Only one `#[crud_table]` attribute is allowed
   |   ^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 error[E0599]: no function or associated item named `read_all` found for struct `Test` in the current scope
-  --> tests/read_all/attribute_table_multiple/test.rs:14:26
+  --> tests/read_all/attribute_table_multiple/test.rs:17:26
    |
 6  | struct Test {
    | ----------- function or associated item `read_all` not found for this struct
 ...
-14 |     let _results = Test::read_all().await;
+17 |     let _results = Test::read_all(&pool).await;
    |                          ^^^^^^^^ function or associated item not found in `Test`

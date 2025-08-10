@@ -5,17 +5,23 @@ error: Only one `#[crud_table]` attribute is allowed
   |   ^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 error[E0599]: no method named `update` found for struct `Test` in the current scope
-  --> tests/update/attribute_table_multiple/test.rs:18:6
+  --> tests/update/attribute_table_multiple/test.rs:21:6
    |
 6  |   struct Test {
    |   ----------- method `update` not found for this struct
 ...
-14 |       let _result = Test {
+17 |       let _result = Test {
    |  ___________________-
-15 | |         id: 1,
-16 | |         name: "Debbie".to_string(),
-17 | |     }
-18 | |     .update()
+18 | |         id: 1,
+19 | |         name: "Debbie".to_string(),
+20 | |     }
+21 | |     .update(&pool)
    | |     -^^^^^^ method not found in `Test`
    | |_____|
    |
+   |
+   = help: items from traits can only be used if the trait is implemented and in scope
+   = note: the following traits define an item `update`, perhaps you need to implement one of them:
+           candidate #1: `digest::Update`
+           candidate #2: `digest::digest::Digest`
+           candidate #3: `digest::digest::DynDigest`

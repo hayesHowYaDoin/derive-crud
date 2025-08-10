@@ -9,17 +9,23 @@ error: A struct must be annotated with `#[crud_table("table_name")]` to specify 
   | |_^
 
 error[E0599]: no method named `update` found for struct `Test` in the current scope
-  --> tests/update/attribute_table_none/test.rs:16:6
+  --> tests/update/attribute_table_none/test.rs:19:6
    |
 4  |   struct Test {
    |   ----------- method `update` not found for this struct
 ...
-12 |       let _result = Test {
+15 |       let _result = Test {
    |  ___________________-
-13 | |         id: 1,
-14 | |         name: "Debbie".to_string(),
-15 | |     }
-16 | |     .update()
+16 | |         id: 1,
+17 | |         name: "Debbie".to_string(),
+18 | |     }
+19 | |     .update(&pool)
    | |     -^^^^^^ method not found in `Test`
    | |_____|
    |
+   |
+   = help: items from traits can only be used if the trait is implemented and in scope
+   = note: the following traits define an item `update`, perhaps you need to implement one of them:
+           candidate #1: `digest::Update`
+           candidate #2: `digest::digest::Digest`
+           candidate #3: `digest::digest::DynDigest`
