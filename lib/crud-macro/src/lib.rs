@@ -192,7 +192,7 @@ pub fn read_derive(input: TokenStream) -> TokenStream {
             pub fn read<'a>(
                 pool: &'a ::derive_crud::sqlx::Pool<::derive_crud::sqlx::Sqlite>,
                 id: i64
-            ) -> ::std::pin::Pin<Box<impl ::futures_core::stream::Stream<Item = Result<#struct_name, ::derive_crud::CRUDError>> + 'a>> {
+            ) -> ::std::pin::Pin<Box<impl ::derive_crud::futures_core::stream::Stream<Item = Result<#struct_name, ::derive_crud::CRUDError>> + 'a>> {
                 use ::derive_crud::futures_util::StreamExt;
 
                 Box::pin(::derive_crud::async_stream::stream! {

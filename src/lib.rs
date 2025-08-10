@@ -9,5 +9,6 @@ pub use crud_macro::{Create, Delete, Read, Update};
 
 // Re-export to ensure crate dependencies are available at compilation.
 pub use async_stream;
+pub use futures_core;
 pub use futures_util;
 pub use sqlx;
