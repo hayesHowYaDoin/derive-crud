@@ -14,4 +14,6 @@ async fn main() {
     let pool = sqlx::SqlitePool::connect(&database_url).await.unwrap();
 
     let _ = Test::read(&pool, 1);
+    let _ = Test::read_one(&pool, 1);
+    let _ = Test::read_all(&pool);
 }

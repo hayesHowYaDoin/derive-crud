@@ -20,3 +20,21 @@ error[E0599]: no function or associated item named `read` found for struct `Test
            candidate #3: `futures_util::io::AsyncReadExt`
            candidate #4: `sqlx_core::net::socket::Socket`
            candidate #5: `std::io::Read`
+
+error[E0599]: no function or associated item named `read_one` found for struct `Test` in the current scope
+  --> tests/read/attribute_table_multiple/test.rs:18:19
+   |
+6  | struct Test {
+   | ----------- function or associated item `read_one` not found for this struct
+...
+18 |     let _ = Test::read_one(&pool, 1);
+   |                   ^^^^^^^^ function or associated item not found in `Test`
+
+error[E0599]: no function or associated item named `read_all` found for struct `Test` in the current scope
+  --> tests/read/attribute_table_multiple/test.rs:19:19
+   |
+6  | struct Test {
+   | ----------- function or associated item `read_all` not found for this struct
+...
+19 |     let _ = Test::read_all(&pool);
+   |                   ^^^^^^^^ function or associated item not found in `Test`

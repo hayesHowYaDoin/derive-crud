@@ -121,11 +121,10 @@ pub fn create_derive(input: TokenStream) -> TokenStream {
     .into()
 }
 
-/// Implements a CRUD function to read items from the database.
+/// Implements a CRUD functions to read items from the database.
 ///
-/// Generates a function that reads all entries in the database table with a
-/// given ID. The new function will have the name `read`, and will take the ID
-/// field as a parameter.
+/// Generates functions that read one/multiple entries in the database table with a
+/// given ID, or to read all entries at once.
 ///
 ///
 /// # Attributes
@@ -171,11 +170,17 @@ pub fn read_derive(input: TokenStream) -> TokenStream {
     let (impl_generics, ty_generics, where_clause) = input.generics.split_for_impl();
     let fields = parse_struct_fields!(input);
 
-    let query = format!(
+    let read_query = format!(
         "SELECT * FROM {} WHERE {} = ?",
         parse_table_attribute!(input),
         parse_id_attribute!(fields),
     );
+    let read_one_query = format!(
+        "SELECT * FROM {} WHERE {} = ?",
+        parse_table_attribute!(input),
+        parse_id_attribute!(fields),
+    );
+    let read_all_query = format!("SELECT * FROM {}", parse_table_attribute!(input),);
 
     quote! {
         impl #impl_generics #struct_name #ty_generics #where_clause {
@@ -190,7 +195,7 @@ pub fn read_derive(input: TokenStream) -> TokenStream {
                 use futures_util::StreamExt;
 
                 Box::pin(async_stream::stream! {
-                    let mut stream = sqlx::query_as!(#struct_name, #query, id).fetch(pool);
+                    let mut stream = sqlx::query_as!(#struct_name, #read_query, id).fetch(pool);
                     while let Some(item) = stream.next().await {
                         match item {
                             Ok(record) => yield Ok(record),
@@ -198,6 +203,29 @@ pub fn read_derive(input: TokenStream) -> TokenStream {
                         }
                     }
                 })
+            }
+
+            /// Reads a single entry from the database by its ID.
+            ///
+            /// The `#[crud_table("table_name")]` attribute specifies the database table to read from.
+            /// The field annotated with `#[crud_id]` is used as the identifier for the table.
+            pub async fn read_one(pool: &sqlx::Pool<sqlx::Sqlite>, id: i64) -> Result<Self, derive_crud::CRUDError> {
+                let item = sqlx::query_as!(#struct_name, #read_one_query, id)
+                    .fetch_one(pool)
+                    .await.map_err(|e| derive_crud::CRUDError(e.to_string()))?;
+
+                Ok(item)
+            }
+
+            /// Reads all entries from the database.
+            ///
+            /// The `#[crud_table("table_name")]` attribute specifies the database table to read from.
+            pub async fn read_all(pool: &sqlx::Pool<sqlx::Sqlite>) -> Result<Vec<Self>, derive_crud::CRUDError> {
+                let items: Vec<#struct_name> = sqlx::query_as!(#struct_name, #read_all_query)
+                    .fetch_all(pool)
+                    .await.map_err(|e| derive_crud::CRUDError(e.to_string()))?;
+
+                Ok(items)
             }
         }
     }
