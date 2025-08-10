@@ -10,10 +10,10 @@ error: A struct must be annotated with `#[crud_table("table_name")]` to specify 
   | |_^
 
 error[E0599]: no function or associated item named `create` found for struct `Test` in the current scope
-  --> tests/create/attribute_table_no_name/test.rs:13:11
+  --> tests/create/attribute_table_no_name/test.rs:16:19
    |
 5  | struct Test {
    | ----------- function or associated item `create` not found for this struct
 ...
-13 |     Test::create("Debbie".to_string()).await;
-   |           ^^^^^^ function or associated item not found in `Test`
+16 |     let _ = Test::create(&pool, "Debbie".to_string()).await;
+   |                   ^^^^^^ function or associated item not found in `Test`

@@ -6,10 +6,10 @@ error: Only one field can be annotated with `#[crud_id]`
   | |________________^
 
 error[E0599]: no function or associated item named `create` found for struct `Test` in the current scope
-  --> tests/create/attribute_id_multiple/test.rs:14:11
+  --> tests/create/attribute_id_multiple/test.rs:17:19
    |
 5  | struct Test {
    | ----------- function or associated item `create` not found for this struct
 ...
-14 |     Test::create("Debbie".to_string()).await;
-   |           ^^^^^^ function or associated item not found in `Test`
+17 |     let _ = Test::create(&pool, "Debbie".to_string()).await;
+   |                   ^^^^^^ function or associated item not found in `Test`

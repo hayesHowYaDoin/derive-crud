@@ -109,12 +109,9 @@ pub fn create_derive(input: TokenStream) -> TokenStream {
             ///
             /// The `#[crud_table("table_name")]` attribute specifies the database table to insert into.
             /// The field annotated with `#[crud_id]` is used as the identifier for the table.
-            pub async fn create(#(#fn_params),*) -> anyhow::Result<Self> {
-                let database_url = std::env::var("DATABASE_URL")?;
-                let pool = sqlx::SqlitePool::connect(&database_url).await?;
-
+            pub async fn create(pool: &sqlx::Pool<sqlx::Sqlite>, #(#fn_params),*) -> anyhow::Result<Self> {
                 let item = sqlx::query_as!(#struct_name, #query, #(#column_idents),*,)
-                    .fetch_one(&pool)
+                    .fetch_one(pool)
                     .await?;
 
                 Ok(item)
@@ -182,19 +179,22 @@ pub fn read_derive(input: TokenStream) -> TokenStream {
 
     quote! {
         impl #impl_generics #struct_name #ty_generics #where_clause {
-            /// Reads an entry from the database by its ID.
+            /// Reads entries from the database by their ID.
             ///
             /// The `#[crud_table("table_name")]` attribute specifies the database table to read from.
             /// The field annotated with `#[crud_id]` is used as the identifier for the table.
-            pub async fn read(id: i64) -> anyhow::Result<Self> {
-                let database_url = std::env::var("DATABASE_URL")?;
-                let pool = sqlx::SqlitePool::connect(&database_url).await?;
+            pub fn read<'a>(pool: &'a sqlx::Pool<sqlx::Sqlite>, id: i64) -> std::pin::Pin<Box<impl futures_core::stream::Stream<Item = Result<#struct_name, derive_crud::CRUDError>> + 'a>> {
+                use futures_util::StreamExt;
 
-                let item = sqlx::query_as!(#struct_name, #query, id)
-                    .fetch(&pool)
-                    .await?;
-
-                Ok(item)
+                Box::pin(async_stream::stream! {
+                    let mut stream = sqlx::query_as!(#struct_name, #query, id).fetch(pool);
+                    while let Some(item) = stream.next().await {
+                        match item {
+                            Ok(record) => yield Ok(record),
+                            Err(e) => yield Err(derive_crud::CRUDError(e.to_string())),
+                        }
+                    }
+                })
             }
         }
     }
@@ -259,16 +259,13 @@ pub fn read_one_derive(input: TokenStream) -> TokenStream {
 
     quote! {
         impl #impl_generics #struct_name #ty_generics #where_clause {
-            /// Reads an entry from the database by its ID.
+            /// Reads a single entry from the database by its ID.
             ///
             /// The `#[crud_table("table_name")]` attribute specifies the database table to read from.
             /// The field annotated with `#[crud_id]` is used as the identifier for the table.
-            pub async fn read_one(id: i64) -> anyhow::Result<Self> {
-                let database_url = std::env::var("DATABASE_URL")?;
-                let pool = sqlx::SqlitePool::connect(&database_url).await?;
-
+            pub async fn read_one(pool: &sqlx::Pool<sqlx::Sqlite>, id: i64) -> anyhow::Result<Stream<Self> {
                 let item = sqlx::query_as!(#struct_name, #query, id)
-                    .fetch_one(&pool)
+                    .fetch_one(pool)
                     .await?;
 
                 Ok(item)
@@ -332,12 +329,9 @@ pub fn read_all_derive(input: TokenStream) -> TokenStream {
             /// Reads all entries from the database.
             ///
             /// The `#[crud_table("table_name")]` attribute specifies the database table to read from.
-            pub async fn read_all() -> anyhow::Result<Vec<Self>> {
-                let database_url = std::env::var("DATABASE_URL")?;
-                let pool = sqlx::SqlitePool::connect(&database_url).await?;
-
+            pub async fn read_all(pool: &sqlx::Pool<sqlx::Sqlite>) -> anyhow::Result<Vec<Self>> {
                 let items: Vec<#struct_name> = sqlx::query_as!(#struct_name, #query)
-                    .fetch_all(&pool)
+                    .fetch_all(pool)
                     .await?;
 
                 Ok(items)
@@ -415,12 +409,9 @@ pub fn update_derive(input: TokenStream) -> TokenStream {
             ///
             /// The `#[crud_table("table_name")]` attribute specifies the database table to update.
             /// The field annotated with `#[crud_id]` is used as the identifier for the table.
-            pub async fn update(&self) -> anyhow::Result<()> {
-                let database_url = std::env::var("DATABASE_URL")?;
-                let pool = sqlx::SqlitePool::connect(&database_url).await?;
-
+            pub async fn update(&self, pool: &sqlx::Pool<sqlx::Sqlite>) -> anyhow::Result<()> {
                 sqlx::query!(#query, self.#id_ident, #(self.#column_idents),*)
-                    .fetch_all(&pool)
+                    .fetch_all(pool)
                     .await?;
 
                 Ok(())
@@ -490,12 +481,9 @@ pub fn delete_derive(input: TokenStream) -> TokenStream {
             ///
             /// The `#[crud_table("table_name")]` attribute specifies the database table to delete from.
             /// The field annotated with `#[crud_id]` is used as the identifier for the table.
-            pub async fn delete(id: i64) -> anyhow::Result<()> {
-                let database_url = std::env::var("DATABASE_URL")?;
-                let pool = sqlx::SqlitePool::connect(&database_url).await?;
-
+            pub async fn delete(pool: &sqlx::Pool<sqlx::Sqlite>, id: i64) -> anyhow::Result<()> {
                 sqlx::query!(#query, id)
-                    .execute(&pool)
+                    .execute(pool)
                     .await?;
 
                 Ok(())

@@ -10,5 +10,8 @@ struct Test {
 
 #[tokio::main]
 async fn main() {
-    Test::create("Debbie".to_string()).await;
+    let database_url = std::env::var("DATABASE_URL").unwrap();
+    let pool = sqlx::SqlitePool::connect(&database_url).await.unwrap();
+
+    let _ = Test::create(&pool, "Debbie".to_string()).await;
 }

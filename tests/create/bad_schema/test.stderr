@@ -5,23 +5,3 @@ error: error returned from database: (code: 1) table test_table has no column na
   |          ^^^^^^
   |
   = note: this error originates in the macro `$crate::sqlx_macros::expand_query` which comes from the expansion of the derive macro `Create` (in Nightly builds, run with -Z macro-backtrace for more info)
-
-error[E0061]: this function takes 2 arguments but 1 argument was supplied
-  --> tests/create/bad_schema/test.rs:14:5
-   |
-14 |     Test::create("Debbie".to_string()).await;
-   |     ^^^^^^^^^^^^---------------------- argument #2 of type `std::string::String` is missing
-   |
-note: associated function defined here
-  --> tests/create/bad_schema/test.rs:3:10
-   |
-3  | #[derive(Create)]
-   |          ^^^^^^
-...
-9  |     location: String,
-   |     ----------------
-   = note: this error originates in the derive macro `Create` (in Nightly builds, run with -Z macro-backtrace for more info)
-help: provide the argument
-   |
-14 |     Test::create("Debbie".to_string(), /* std::string::String */).await;
-   |                                      +++++++++++++++++++++++++++
