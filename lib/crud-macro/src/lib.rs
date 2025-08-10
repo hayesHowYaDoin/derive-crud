@@ -195,7 +195,7 @@ pub fn read_derive(input: TokenStream) -> TokenStream {
             ) -> ::std::pin::Pin<Box<impl ::futures_core::stream::Stream<Item = Result<#struct_name, ::derive_crud::CRUDError>> + 'a>> {
                 use ::derive_crud::futures_util::StreamExt;
 
-                Box::pin(async_stream::stream! {
+                Box::pin(::derive_crud::async_stream::stream! {
                     let mut stream = ::derive_crud::sqlx::query_as!(#struct_name, #read_query, id).fetch(pool);
                     while let Some(item) = stream.next().await {
                         match item {
