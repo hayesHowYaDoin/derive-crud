@@ -9,7 +9,7 @@ members = [
 ]
 
 [workspace.package]
-version = "0.1.0"
+version = "1.0.0"
 license = "BSD-3-Clause"
 edition = "2021"
 repository = "https://github.com/hayesHowYaDoin/crud"
@@ -32,12 +32,12 @@ authors.workspace = true
 
 [workspace.dependencies]
 # Core
-crud-core = { path = "lib/crud-core" }
-crud-macro-core = { path = "lib/crud-macro-core" }
-crud-macro = { path = "lib/crud-macro" }
-crud-test-core = { path = "lib/crud-test-core" }
-crud-test-macro = { path = "lib/crud-test-macro" }
-crud-test = { path = "lib/crud-test" }
+crud-core = { version = "=1.0.0", path = "lib/crud-core" }
+crud-macro-core = { version = "=1.0.0", path = "lib/crud-macro-core" }
+crud-macro = { version = "=1.0.0", path = "lib/crud-macro" }
+crud-test-core = { version = "=1.0.0", path = "lib/crud-test-core" }
+crud-test-macro = { version = "=1.0.0", path = "lib/crud-test-macro" }
+crud-test = { version = "=1.0.0", path = "lib/crud-test" }
 # Common
 async-stream = "0.3.6"
 eyre = "0.6.12"

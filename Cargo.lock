@@ -188,11 +188,11 @@ checksum = "d0a5c400df2834b80a4c3327b3aad3a4c4cd4de0629063962b03235697506a28"
 
 [[package]]
 name = "crud-core"
-version = "0.1.0"
+version = "1.0.0"
 
 [[package]]
 name = "crud-macro"
-version = "0.1.0"
+version = "1.0.0"
 dependencies = [
  "async-stream",
  "crud-core",
@@ -205,14 +205,14 @@ dependencies = [
 
 [[package]]
 name = "crud-macro-core"
-version = "0.1.0"
+version = "1.0.0"
 dependencies = [
  "syn",
 ]
 
 [[package]]
 name = "crud-test"
-version = "0.1.0"
+version = "1.0.0"
 dependencies = [
  "crud-test-core",
  "crud-test-macro",
@@ -221,7 +221,7 @@ dependencies = [
 
 [[package]]
 name = "crud-test-core"
-version = "0.1.0"
+version = "1.0.0"
 dependencies = [
  "eyre",
  "sqlx",
@@ -229,7 +229,7 @@ dependencies = [
 
 [[package]]
 name = "crud-test-macro"
-version = "0.1.0"
+version = "1.0.0"
 dependencies = [
  "crud-test-core",
  "quote",
@@ -260,7 +260,7 @@ dependencies = [
 
 [[package]]
 name = "derive-crud"
-version = "0.1.0"
+version = "1.0.0"
 dependencies = [
  "async-stream",
  "crud-core",
