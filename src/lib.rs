@@ -5,6 +5,7 @@
 //! to generate SQL queries at compile time, ensuring type safety and performance.
 
 pub use crud_core::error::CRUDError;
+
 pub use crud_macro::{Create, Delete, Read, Update};
 
 // Re-export to ensure crate dependencies are available at compilation.
