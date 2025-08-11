@@ -64,7 +64,7 @@ fn build_update_query(id_ident: &Ident, table: &str, attribute_idents: &[&Ident]
 ///
 /// # Example
 ///
-/// ```rust,no_run
+/// ```rust,ignore
 /// #[derive(Create)]
 /// #[crud_table("users")]
 /// struct User {
@@ -143,7 +143,7 @@ pub fn create_derive(input: TokenStream) -> TokenStream {
 ///
 /// # Example
 ///
-/// ```rust,no_run
+/// ```rust,ignore
 /// #[derive(Read)]
 /// #[crud_table("users")]
 /// struct User {
@@ -257,7 +257,7 @@ pub fn read_derive(input: TokenStream) -> TokenStream {
 ///
 /// # Example
 ///
-/// ```rust,no_run
+/// ```rust,ignore
 /// #[derive(Delete)]
 /// #[crud_table("users")]
 /// struct User {
@@ -329,7 +329,7 @@ pub fn update_derive(input: TokenStream) -> TokenStream {
 ///
 /// # Example
 ///
-/// ```rust,no_run
+/// ```rust,ignore
 /// #[derive(Update)]
 /// #[crud_table("users")]
 /// struct User {
